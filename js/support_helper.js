@@ -20,39 +20,51 @@ function checkAuthenticityOfURL(site_url, article_url){
   return (site.authority == article.authority);
 }
 
-
 var supportedSites = {
 	times_of_india: function(){
 		this.display_name = "Times of india"
 		this.site_url = "http://timesofindia.indiatimes.com" // should not end with '/'
 		this.feed_proxy = new FeedProxy(this.site_url);
 		this.class_name = 'times_of_india';
+		this.local_storage_object = new AppStorage();
 
 		this.getFeedList = function(){
 			var self = this;
 			return new Promise(function(resolve, reject){
-				self.feed_proxy.getPage()
-					.then(function(pageText){
-						var list = [];
-						dom_element = stringToDOM(pageText);
-						anchors = $q('[data-vr-zone="top_stories"] a', dom_element).all()
-						for(i=0; i<anchors.length;i++){
-							a_link = anchors[i].getAttribute('href').trim();
-						    a_text = anchors[i].innerText.trim();
-						    if(a_link != "" && a_text != ""){
-						    	list.push({
-						    		title: a_text, 
-						    		url: makeFullURL(a_link, self.site_url),
-						    		source_name: self.display_name, // Added part of template need.
-						    		class_name: self.class_name
-						    	});
-							}
-						}
-						resolve(list);
+				getFeedListFromStorage(self.local_storage_object, self.class_name)
+					.then(function(feed_list){
+						resolve(feed_list);
 					})
-					.catch(function(error){
-						console.log("[Error] Error fetching feed list.")
-						reject(error);
+					.catch(function(){
+						self.feed_proxy.getPage()
+							.then(function(pageText){
+								var list = [];
+								dom_element = stringToDOM(pageText);
+								anchors = $q('[data-vr-zone="top_stories"] a', dom_element).all()
+								for(i=0; i<anchors.length;i++){
+									a_link = anchors[i].getAttribute('href').trim();
+								    a_text = anchors[i].innerText.trim();
+								    if(a_link != "" && a_text != ""){
+								    	list.push({
+								    		title: a_text, 
+								    		url: makeFullURL(a_link, self.site_url),
+								    		source_name: self.display_name, // Added part of template need.
+								    		class_name: self.class_name
+								    	});
+									}
+								}
+								addFeedListToStorage(self.local_storage_object, self.class_name, list)
+									.then(function(){
+										resolve(list);
+									})
+									.catch(function(addFeedListError){
+										reject(addFeedListError);
+									});
+							})
+							.catch(function(error){
+								console.log("[Error] Error fetching feed list.")
+								reject(error);
+							});
 					});
 			});
 		}

@@ -80,7 +80,7 @@ function populatePlaylistByPreference(){
 							resolve();
 						}else{
 							console.log("[Error] Failed populating playlist: "+response.error)
-							reject(err);
+							reject(response.error);
 						}
 					});
 				}
@@ -183,5 +183,10 @@ $(window).on('beforeunload', function(){
     chrome.runtime.sendMessage({ type: "closingWindow" });
 });
 
-
-
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if(request.type == 'endOfSpeech'){
+    	// Change UI pause to play on end of speech.
+    	$('[src="../img/pause.png"]').attr('src', '../img/play.png');
+    }
+    return true;
+});

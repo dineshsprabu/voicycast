@@ -176,26 +176,70 @@ function timeDiffInHours(milliseconds){
 	return parseInt((time_diff/(1000*60*60)) % 24)
 }
 
+// Maintaining feedlist based on corresponding expiry.
+
+function getFeedListFromStorage(ls_object, site_name){
+	console.log('[Status] Getting playlist from storage for :'+site_name);
+	return new Promise(function(resolve, reject){
+		ls_object.get(site_name+'_feed_timestamp')
+			.then(function(feed_time){
+				// Rejecting feed list on storage if expired.
+				if(timeDiffInHours(feed_time) >= EXPIRY_BY_SITE[site_name]){
+					reject('Feed on storage is expired');
+				}else{
+					ls_object.get(site_name+'_feed_list')
+						.then(function(feed_list){
+							resolve(feed_list);
+						})
+						.catch(function(feed_get_error){
+							reject(feed_get_error);
+						});
+				}
+			})
+			.catch(function(feed_info_get_error){
+				reject(feed_info_get_error);
+			});
+	});
+}
+
+function addFeedListToStorage(ls_object, site_name, feed_list){
+	var kv_pair = {};
+	kv_pair[site_name+'_feed_list'] = feed_list
+	kv_pair[site_name+'_feed_timestamp'] = (new Date).getTime();
+	console.log('[Status] Adding feed list to storage for : '+site_name);
+	return ls_object.set(kv_pair);
+}
+
 var NEWS_PAPERS_BY_COUNTRY = {
-	AU: { 'the_herald_sun': {expiry: 24} },
-	CN: {
-			'the_torronto_star': {expiry: 24},
-			'the_globe_and_mail': {expiry: 24}
-		},
-	IN: {
-			'times_of_india':{expiry: 1}, // 1 hour expiry. 
-			'hindustan_times': { expiry: 24}
-		},
-	JP: {'the_japan_news':{ expiry: 24 }}, // display_name: yomiuri shimbun
-	NO: {'the_local':{ expiry: 24 }}, // www.thelocal.no
-	TR: {'dailysabah':{ expiry: 24 }}, // www.dailysabah.com
+	AU: { 'the_herald_sun': {} },
+	CN: {'the_torronto_star': {}, 'the_globe_and_mail': {} },
+	IN: { 'times_of_india':{}, 'hindustan_times': {} },
+	JP: {'the_japan_news':{} }, // display_name: yomiuri shimbun
+	NO: {'the_local':{} }, // www.thelocal.no
+	TR: {'dailysabah':{} }, // www.dailysabah.com
 	UK: {
-			'the_sun':{ expiry: 24 }, //www.thesun.co.uk, http://www.dailymail.co.uk/
-			'dailymail': { expiry: 24 }
+			'the_sun':{}, //www.thesun.co.uk, http://www.dailymail.co.uk/
+			'dailymail':{}
 		}, 
 	US: {
-			'the_wall_street_journal': { expiry: 24 }, 
-			'the_new_york_times': { expiry: 24 }, 
-			'usa_today': { expiry: 24 }
+			'the_wall_street_journal':{}, 
+			'the_new_york_times':{}, 
+			'usa_today': {}
 		}
 }
+
+var EXPIRY_BY_SITE = {
+	times_of_india: 1,
+	the_wall_street_journal: 24,
+	the_new_york_times: 24,
+	the_sun:24,
+	dailymail: 24,
+	the_herald_sun: 24,
+	the_globe_and_mail: 24,
+	the_torronto_star: 24,
+	hindustan_times: 24,
+	the_japan_news: 24,
+	the_local: 24,
+	dailysabah: 24
+}
+

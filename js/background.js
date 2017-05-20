@@ -42,6 +42,10 @@ function clearExistingSpeech(){
   speechSynthesis.cancel();
 }
 
+function sendEndSignal(){
+  console.log('[Status] End of speech.');
+}
+
 FeedProxy = function(url){
 	var self = this;
 	self.url = url;
@@ -52,6 +56,11 @@ FeedProxy = function(url){
 			var speakBot = new SpeechSynthesisUtterance(selectedText);
 			var voices = speechSynthesis.getVoices();
       speakBot.onstart = clearExistingSpeech();
+
+      speakBot.addEventListener('end', function(){
+        chrome.runtime.sendMessage({type: 'endOfSpeech'})
+      });
+
 			speakBot.voice = voices[8];
 			speakBot.volume = 0.7; // 0 to 1 
 			speakBot.rate = 6; // 0.1 to 10
