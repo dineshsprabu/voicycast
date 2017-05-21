@@ -95,7 +95,7 @@ var supportedSites = {
 			return article_div.innerText.trim().replace(/\n|\r/g, "");
 		}
 
-		this.getArticle = function(article_url){
+		this.getArticle = function(article_title, article_url){
 			var self = this;
 			return new Promise(function(resolve,reject){
 				if(checkAuthenticityOfURL(self.site_url, article_url)){
@@ -104,7 +104,8 @@ var supportedSites = {
 						.then(function(responseHTML){
 							dom_element = stringToDOM(responseHTML);
 							main_dom = $q('[itemprop="articleBody"] arttextxml .Normal', dom_element).first();
-							article_feed_proxy.speechSynthesiser(self.getCleanContent(main_dom));
+							article_head = "Title of the article is : "+article_title
+							article_feed_proxy.speechSynthesiser(article_head+". "+self.getCleanContent(main_dom));
 							resolve();
 						})
 						.catch(function(error){

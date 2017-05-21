@@ -167,6 +167,7 @@ $(document).ready(function(){
 		$($(e.target).find('img#play-this')[0]).on('click', function(){
 			var self = this;
 			var source_data = $(self).data();
+			var article_title = $(self).parent().parent().find('span.feed-title').text().trim();
 			if(source_data.playing || source_data.playing == "true"){
 				$(self).data({playing: false});
 				$(self).attr('src', '../img/play.png');
@@ -176,7 +177,8 @@ $(document).ready(function(){
 					type: "readMeThis",
 					options:{
 						source_url: source_data.surl,
-						source_key: source_data.skey
+						source_key: source_data.skey,
+						article_title: article_title
 					}
 				}, function(response){
 					if(isOnePlaying){

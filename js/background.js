@@ -173,7 +173,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
     else if(request.type == "readMeThis"){
       var feed_object = new supportedSites[request.options.source_key];
-      feed_object.getArticle(request.options.source_url)
+      feed_object.getArticle(request.options.article_title, request.options.source_url)
         .then(function(){
           console.log("[Status] Playing the article: "+source_url);
           sendResponse({ status: "success", display_message: 'Playing'})
