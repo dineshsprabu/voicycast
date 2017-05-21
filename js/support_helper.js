@@ -104,7 +104,7 @@ var supportedSites = {
 						.then(function(responseHTML){
 							dom_element = stringToDOM(responseHTML);
 							main_dom = $q('[itemprop="articleBody"] arttextxml .Normal', dom_element).first();
-							article_head = "Title of the article is : "+article_title
+							article_head = "Title of the article : "+article_title
 							article_feed_proxy.speechSynthesiser(article_head+". "+self.getCleanContent(main_dom));
 							resolve();
 						})

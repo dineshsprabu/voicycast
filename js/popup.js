@@ -91,14 +91,11 @@ function populatePlaylistByPreference(){
 	});
 }
 
-var playAll = false;
-
-function playNextOnPlayAll(playingImgObject){
-	console.log(playAll);
-	if(playAll){
-		console.log('Playing object')
-	}
+function stopPlaying(){
+	$('[src="../img/pause.png"]').click();
 }
+
+var playAll = false;
 
 $(document).ready(function(){
 	console.log("[Status] Loaded.");
@@ -111,9 +108,15 @@ $(document).ready(function(){
 	});
 
 	$('#play-all').on('click', function(){
-		playAll = true;
-		// Begin by playing first one.
-		$('.playlist .playlist-container').first().find('img').click();
+		if(!playAll){
+			playAll = true;
+			$('.playlist .playlist-container').first().find('img').click();
+			$(this).text('Stop');
+		}else{
+			playAll = false;
+			stopPlaying();
+			$(this).text('Play All');
+		}
 	})
 
 	// Supported websites settings.
