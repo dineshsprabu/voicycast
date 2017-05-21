@@ -58,7 +58,8 @@ FeedProxy = function(url){
       speakBot.onstart = clearExistingSpeech();
 
       speakBot.addEventListener('end', function(){
-        chrome.runtime.sendMessage({type: 'endOfSpeech'})
+        chrome.runtime.sendMessage({type: 'playNext'});
+        chrome.runtime.sendMessage({type: 'endOfSpeech'});
       });
 
 			speakBot.voice = voices[8];

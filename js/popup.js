@@ -91,6 +91,15 @@ function populatePlaylistByPreference(){
 	});
 }
 
+var playAll = false;
+
+function playNextOnPlayAll(playingImgObject){
+	console.log(playAll);
+	if(playAll){
+		console.log('Playing object')
+	}
+}
+
 $(document).ready(function(){
 	console.log("[Status] Loaded.");
 
@@ -100,6 +109,12 @@ $(document).ready(function(){
 	$('.tablinks').on('click', function(){
 		openCity(this, this.getAttribute('data-tab'));
 	});
+
+	$('#play-all').on('click', function(){
+		playAll = true;
+		// Begin by playing first one.
+		$('.playlist .playlist-container').first().find('img').click();
+	})
 
 	// Supported websites settings.
 	$("#supported_feeds label input:checkbox").change(function(){
@@ -185,8 +200,13 @@ $(window).on('beforeunload', function(){
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if(request.type == 'endOfSpeech'){
+    	console.log('[Status] End of Speech');
     	// Change UI pause to play on end of speech.
     	$('[src="../img/pause.png"]').attr('src', '../img/play.png');
+    }else if(request.type == 'playNext'){
+    	if(playAll){
+    		$('[src="../img/pause.png"]').parent().parent().next().find('img').click();
+    	}
     }
     return true;
 });
