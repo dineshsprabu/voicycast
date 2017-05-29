@@ -101,8 +101,8 @@
 		}
 
 		.playlist{
-			padding: 20px;
-			height: 75vh;
+			padding: 15px 20px;
+			height: 68vh;
 			overflow-y: scroll;
 		}
 
@@ -165,8 +165,32 @@
 		  	box-shadow:         2px 2px 7px 2px #ccc;
 		}
 
+		.now-playing{
+			-moz-box-shadow:    2px 2px 7px 2px #ccc;
+			-webkit-box-shadow: 2px 2px 7px 2px #ccc;
+		  	box-shadow:         2px 2px 7px 2px #ccc;
+		}
+
 		.currentplay{
 			margin-bottom: 0px;
+		}
+
+		a#goto-now-playing{
+			border: 1px solid #ccc;
+		    background: #FFF;
+		    width: 40%;
+		    padding: 8px;
+		    font-weight: 300;
+		    cursor: pointer;
+		    display: inline-block;
+			letter-spacing: 1px;
+    		font-family: sans-serif;
+		}
+
+		div.top-block{
+			padding: 3% 0;
+    		border-bottom: solid #ccc 1px;
+    		text-align: center;
 		}
 
 	</style>
@@ -178,10 +202,12 @@
 	  <button class="tablinks" data-tab="Wish List">Playlist</button>
 	  <button class="tablinks" data-tab="Settings">Settings</button>
 	</div>
-
-	<div id="Wish List" class="tabcontent playlist">
-		<button id="play-all"> Play All </button>
+	<div class="top-block">
+		<a id="goto-now-playing" > Now Playing </a>
 	</div>
+
+
+	<div id="Wish List" class="tabcontent playlist"></div>
 
 	<div id="Settings" class="tabcontent">
 	  <div class="setting-tab">

@@ -95,7 +95,7 @@ function stopPlaying(){
 	$('[src="../img/pause.png"]').click();
 }
 
-var playAll = false;
+var playAll = true;
 
 $(document).ready(function(){
 	console.log("[Status] Loaded.");
@@ -106,18 +106,6 @@ $(document).ready(function(){
 	$('.tablinks').on('click', function(){
 		openCity(this, this.getAttribute('data-tab'));
 	});
-
-	$('#play-all').on('click', function(){
-		if(!playAll){
-			playAll = true;
-			$('.playlist .playlist-container').first().find('img').click();
-			$(this).text('Stop');
-		}else{
-			playAll = false;
-			stopPlaying();
-			$(this).text('Play All');
-		}
-	})
 
 	// Supported websites settings.
 	$("#supported_feeds label input:checkbox").change(function(){
@@ -156,12 +144,19 @@ $(document).ready(function(){
  		});
 
 	$('[data-tab="Wish List"]').on('click', function(){
+
+		$('div.top-block').show();
+
 		populatePlaylistByPreference()
 			.then(function(){
 			})
 			.catch(function(err){
 				console.log(err);
 			});
+	});
+
+	$('[data-tab="Settings"]').on('click', function(){
+		$('div.top-block').hide();
 	});
 
 	var isOnePlaying = false; // To make play/pause image set.
@@ -191,9 +186,16 @@ $(document).ready(function(){
 					}
 					$(self).data({playing: true});
 					$(self).attr('src', '../img/pause.png');
+					$('div.playlist-container').removeClass('now-playing');
+					$(self).parent().parent().addClass('now-playing');
 				});
 			}
 		});
+	});
+
+	$('#goto-now-playing').on('click', function(){
+		console.log('[Status] Scrolling to now playing');
+		document.getElementsByClassName('now-playing')[0].scrollIntoView({block: 'start', behavior: 'smooth'});
 	});
 
 });
