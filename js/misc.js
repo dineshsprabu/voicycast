@@ -222,7 +222,6 @@ var NEWS_PAPERS_BY_COUNTRY = {
 			'dailymail':{}
 		}, 
 	US: {
-			'the_wall_street_journal':{}, 
 			'the_new_york_times':{}, 
 			'usa_today': {}
 		}
@@ -230,7 +229,7 @@ var NEWS_PAPERS_BY_COUNTRY = {
 
 var EXPIRY_BY_SITE = {
 	times_of_india: 1,
-	the_wall_street_journal: 24,
+	techcrunch: 2,
 	the_new_york_times: 24,
 	the_sun:24,
 	dailymail: 24,

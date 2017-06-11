@@ -3,7 +3,7 @@
   <head>
     <title>&lrm;</title>
     <script type="text/javascript" src="../js/jquery.js"></script> 
-   	<script type="text/javascript" src="../js/support_helper.js"></script>
+   	<script type="text/javascript" src="../js/support.js"></script>
     <script type="text/javascript" src="../js/misc.js"></script>
 	<script type="text/javascript" src="../js/popup.js"></script>
 	<script type="text/javascript" src="../js/storage.js"></script>
@@ -176,15 +176,16 @@
 		}
 
 		a#goto-now-playing{
-			border: 1px solid #ccc;
+		    border: 1px solid #ccc;
 		    background: #FFF;
-		    width: 40%;
-		    padding: 8px;
+		    /* width: 26%; */
+		    padding: 5px 16px;
 		    font-weight: 300;
 		    cursor: pointer;
 		    display: inline-block;
-			letter-spacing: 1px;
-    		font-family: sans-serif;
+		    letter-spacing: 1px;
+		    font-family: sans-serif;
+		    font-size: 9px;
 		}
 
 		div.top-block{
@@ -203,7 +204,7 @@
 	  <button class="tablinks" data-tab="Settings">Settings</button>
 	</div>
 	<div class="top-block">
-		<a id="goto-now-playing" > Now Playing </a>
+		<a id="goto-now-playing"> Go to Now Playing </a>
 	</div>
 
 
@@ -213,11 +214,11 @@
 	  <div class="setting-tab">
 	  	  <span class="setting-title">Choose your feed</span><hr>
 	  	  <div class="setting-content" id="supported_feeds">
-			  <label for="newyork_times"><input type="checkbox" name="checkbox" id="feed_newyork_times" value="newyork_times">  The New York Times</label>
-			  <label for="times_of_india"><input type="checkbox" name="checkbox" id="feed_times_of_india" value="times_of_india">  Times of India</label>
-			  <label for="the_guardian"><input type="checkbox" name="checkbox" id="feed_the_guardian" value="the_guardian">  The Guardian</label>
-			  <label for="techcrunch"><input type="checkbox" name="checkbox" id="feed_techcrunch" value="techcrunch">  Techcrunch</label>
-			  <label for="medium"><input type="checkbox" name="checkbox" id="feed_medium" value="medium">  Medium</label>
+	  	  	  <label for="techcrunch"><input type="checkbox" name="checkbox" id="feed_techcrunch" value="techcrunch">  Techcrunch</label>
+	  	  	  <label for="times_of_india"><input type="checkbox" name="checkbox" id="feed_times_of_india" value="times_of_india">  Times of India</label>
+			  <label for="the_new_york_times"><input type="checkbox" name="checkbox" id="feed_the_new_york_times" value="the_new_york_times">  The New York Times</label>
+			  <label for="the_sun"><input type="checkbox" name="checkbox" id="feed_the_sun" value="the_sun">  The Sun</label>
+			  <label for="the_torronto_star"><input type="checkbox" name="checkbox" id="feed_the_torronto_star" value="the_torronto_star">  The Torronto Star</label>
 		  </div>
 	  </div>
 	</div>
