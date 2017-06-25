@@ -1,2 +1,2 @@
 # VoicyCast
-Chrome extension to voice over my daily article feeds
+VoicyCast is a Chrome Extension to voice over your daily reads
