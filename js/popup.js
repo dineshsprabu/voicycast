@@ -144,15 +144,18 @@ $(document).ready(function(){
  		});
 
 	$('[data-tab="Wish List"]').on('click', function(){
-
-		$('div.top-block').show();
-
-		populatePlaylistByPreference()
-			.then(function(){
-			})
-			.catch(function(err){
-				console.log(err);
-			});
+		var self = this;
+		var populated = $(self).data().populated;
+		if(!populated){
+			$('div.top-block').show();
+			populatePlaylistByPreference()
+				.then(function(){
+					$(self).data({populated: true});
+				})
+				.catch(function(err){
+					console.log(err);
+				});
+		}
 	});
 
 	$('[data-tab="Settings"]').on('click', function(){
@@ -162,7 +165,7 @@ $(document).ready(function(){
 	var isOnePlaying = false; // To make play/pause image set.
 
 	$('.playlist').bind('DOMNodeInserted', function(e){
-		$($(e.target).find('img#play-this')[0]).on('click', function(){
+		$($(e.target).find('img#play-this')[0]).off().on('click', function(){
 			var self = this;
 			var source_data = $(self).data();
 			var article_title = $(self).parent().parent().find('span.feed-title').text().trim();
@@ -171,6 +174,7 @@ $(document).ready(function(){
 				$(self).attr('src', '../img/play.png');
 				window.speechSynthesis.cancel();
 			}else{
+				window.speechSynthesis.cancel();
 				chrome.runtime.sendMessage({ 
 					type: "readMeThis",
 					options:{
@@ -198,6 +202,9 @@ $(document).ready(function(){
 		document.getElementsByClassName('now-playing')[0].scrollIntoView({block: 'start', behavior: 'smooth'});
 	});
 
+	// Trigger populate for the first time.
+	$('[data-tab="Wish List"]').click();
+
 });
 
 // Message for notifying background about closing.
@@ -210,10 +217,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     	console.log('[Status] End of Speech');
     	// Change UI pause to play on end of speech.
     	$('[src="../img/pause.png"]').attr('src', '../img/play.png');
-    }else if(request.type == 'playNext'){
-    	if(playAll){
-    		$('[src="../img/pause.png"]').parent().parent().next().find('img').click();
-    	}
     }
+    // else if(request.type == 'playNext'){
+    // 	if(playAll){
+    // 		$('[src="../img/pause.png"]').parent().parent().next().find('img').click();
+    // 	}
+    // }
     return true;
 });
