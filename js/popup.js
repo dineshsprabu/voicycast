@@ -162,6 +162,12 @@ $(document).ready(function(){
 		$('div.top-block').hide();
 	});
 
+	// Detected change in feed preferences.
+	$('div.setting-content').on('change', function(){
+		// Resetting populated to reconsider changes on settings.
+		$('[data-tab="Wish List"]').data({ populated: false });
+	});
+
 	var isOnePlaying = false; // To make play/pause image set.
 
 	$('.playlist').bind('DOMNodeInserted', function(e){
