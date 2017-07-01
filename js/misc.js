@@ -137,13 +137,13 @@ function applyCountryBasedDefaultFeed(settings){
 							.then(function(){
 								$('#'+elem_id).prop('checked', true);
 								console.log('[status] has set default pref');
-								populatePlaylistByPreference()
-									.then(function(){
-										$('[data-tab="Wish List"]').data({populated: true});
-									})
-									.catch(function(err){
-										console.log('[Error] populatePlaylistByPreference on applyCountryBasedDefaultFeed');
-									});
+								// populatePlaylistByPreference()
+								// 	.then(function(){
+								// 		$('[data-tab="Wish List"]').data({populated: true});
+								// 	})
+								// 	.catch(function(err){
+								// 		console.log('[Error] populatePlaylistByPreference on applyCountryBasedDefaultFeed');
+								// 	});
 								resolve();
 							})
 							.catch(function(){

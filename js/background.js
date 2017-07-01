@@ -51,20 +51,24 @@ FeedProxy = function(url){
 	self.url = url;
 
 	self.speechSynthesiser = function(selectedText) {
-		if (window.speechSynthesis ){
-			var speechInProgress = true;
-			var speakBot = new SpeechSynthesisUtterance(selectedText);
-      speakBot.voice = window.speechSynthesis.getVoices()[1];
-      speakBot.volume = 0.7; // 0 to 1 
-      speakBot.rate = 5; // 0.1 to 10
-      speakBot.pitch = 0.8; //0 to 2
+    if (window.speechSynthesis ){
+      var speechInProgress = true;
+      var speakBot = new SpeechSynthesisUtterance(selectedText);
+      var voices = speechSynthesis.getVoices();
       speakBot.onstart = clearExistingSpeech();
+
       speakBot.addEventListener('end', function(){
+        chrome.runtime.sendMessage({type: 'playNext'});
         chrome.runtime.sendMessage({type: 'endOfSpeech'});
       });
-			speechSynthesis.speak(speakBot);
-		}
-	}
+
+      speakBot.voice = voices[8];
+      speakBot.volume = 0.7; // 0 to 1 
+      speakBot.rate = 6; // 0.1 to 10
+      speakBot.pitch = 1; //0 to 2
+      speechSynthesis.speak(speakBot);
+    }
+  }
 
 	self.getPage = function(){
 		return makeRequest({method: 'GET', url: self.url})
