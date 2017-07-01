@@ -47,7 +47,7 @@ function getPlaylistTemplate(liquid){
 		  			</span>
 		  			<div class="feed-bottom">
 			  			<span class="feed-courtesy">
-			  				Courtesy: `+liquid.source_name+` 
+			  				Source: `+liquid.source_name+` 
 			  			</span>
 			  			<a class="feed-visit" target="_blank" href="`+liquid.url+`">View article</a>
 		  			</div>

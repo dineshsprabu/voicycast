@@ -2,12 +2,15 @@
   "manifest_version": 2,
   "name": "VoicyCast",
   "description": "You choose, I will read it for you.",
-  "version": "1.0",
+  "version": "0.5",
   "browser_action": {
     "default_title": "Voicy Feed",
     "default_icon": {
+        "16": "img/ext_icons/16.png",
         "19": "img/ext_icons/19.png",
-        "38": "img/ext_icons/38.png"
+        "38": "img/ext_icons/38.png",
+        "48": "img/ext_icons/48.png",
+        "128": "img/ext_icons/128.png"
     }
   },
   "background": {
