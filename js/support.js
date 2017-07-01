@@ -351,7 +351,7 @@ var supportedSites = {
 						.then(function(responseHTML){
 							dom_element = stringToDOM(responseHTML);
 							main_dom = $q('div.article__content p', dom_element).all();
-							if(main_dom[main_dom.length-1].indexOf('For the latest news on this story') > -1)
+							if(main_dom[main_dom.length-1].textContent.indexOf('For the latest news on this story') > -1)
 								main_dom.pop();
 							article_head = "Title of the article : "+article_title
 							clean_content = self.getCleanContent(main_dom);

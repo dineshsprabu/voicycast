@@ -133,7 +133,6 @@ $(document).ready(function(){
  			console.log("[Status] Feed pref applied.")
  		})
  		.catch(function(){
- 			console.log('in catch applyFeedChoiceFromStorage');
  			applyCountryBasedDefaultFeed(settings)
  				.then(function(){
  					applyFeedChoiceFromStorage(settings);
@@ -164,8 +163,12 @@ $(document).ready(function(){
 
 	// Detected change in feed preferences.
 	$('div.setting-content').on('change', function(){
+		// Remove existing playlist.
+		$('[id="Wish List"]').html('');
 		// Resetting populated to reconsider changes on settings.
 		$('[data-tab="Wish List"]').data({ populated: false });
+		// Cleared storage.
+		(new AppStorage()).removeAll();
 	});
 
 	var isOnePlaying = false; // To make play/pause image set.

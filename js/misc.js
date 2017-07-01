@@ -126,9 +126,10 @@ function applyCountryBasedDefaultFeed(settings){
 	return new Promise(function(resolve, reject){
 		addUserLocationIfNotAvailable()
 			.then(function(location_info){
-				if(location_info && location_info.country_code){
+				if(location_info && location_info.user_location && location_info.user_location.country_code){
 					location_pref = {}
-					news_default = Object.keys(NEWS_PAPERS_BY_COUNTRY[location_info.country_code]);
+					news_default = Object.keys(NEWS_PAPERS_BY_COUNTRY[location_info.user_location.country_code]);
+					console.log(news_default);
 					if(news_default && (news_default.length>0)){
 						elem_id = 'feed_'+news_default[0];
 						location_pref[elem_id] = true;
@@ -136,14 +137,25 @@ function applyCountryBasedDefaultFeed(settings){
 							.then(function(){
 								$('#'+elem_id).prop('checked', true);
 								console.log('[status] has set default pref');
+								populatePlaylistByPreference()
+									.then(function(){
+										$('[data-tab="Wish List"]').data({populated: true});
+									})
+									.catch(function(err){
+										console.log('[Error] populatePlaylistByPreference on applyCountryBasedDefaultFeed');
+									});
 								resolve();
 							})
 							.catch(function(){
-								console.log("[Error] setting default by country.")
+								console.log("[Error] Setting default by country.")
 								reject();
 							});
-					} else{ reject(); }
-				} else{ reject(); }
+					} else{ 
+						reject(); 
+					}
+				} else{ 
+					reject(); 
+				}
 			})
 			.catch(function(err){
 				reject(err);
