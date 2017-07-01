@@ -54,18 +54,14 @@ FeedProxy = function(url){
 		if (window.speechSynthesis ){
 			var speechInProgress = true;
 			var speakBot = new SpeechSynthesisUtterance(selectedText);
-			var voices = speechSynthesis.getVoices();
+      speakBot.voice = window.speechSynthesis.getVoices()[1];
+      speakBot.volume = 0.7; // 0 to 1 
+      speakBot.rate = 5; // 0.1 to 10
+      speakBot.pitch = 0.8; //0 to 2
       speakBot.onstart = clearExistingSpeech();
-
       speakBot.addEventListener('end', function(){
-        chrome.runtime.sendMessage({type: 'playNext'});
         chrome.runtime.sendMessage({type: 'endOfSpeech'});
       });
-
-			speakBot.voice = voices[8];
-			speakBot.volume = 0.7; // 0 to 1 
-			speakBot.rate = 6; // 0.1 to 10
-			speakBot.pitch = 1; //0 to 2
 			speechSynthesis.speak(speakBot);
 		}
 	}
